@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    body {
+      padding: 0;
+      margin: 0 auto;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgb(0 90 209);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      background-image: url('img/ocean-coraux_small.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    img {
+      /* width: 75px;
+       height: 63px; */
+      position: absolute;
+    }
+
+    #bubles {
+      position: absolute;
+      z-index: -1;
+      opacity: 0.3;
+    }
+
+    #circleClick {
+      position: absolute;
+      display: none;
+      mix-blend-mode: multiply;
+      opacity: 0.2;
+    }
+
+    .fishes {
+      animation: fadeIn 2s;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="fishes">
+    <img id="fish1" src="img/fish-transparent_75x63_2.png" />
+    <img id="fish2" src="img/fish-animated-1_75x63.gif" />
+    <img id="fish3" src="img/fish-transparent_75x63_2.png" />
+    <img id="fish4" src="img/fish-animated-1_75x63.gif" />
+    <img id="fish5" src="img/fish-transparent_75x63_2.png" />
+    <img id="fish6" src="img/fish-animated-3_75x63.gif" />
+    <img id="fish7" src="img/fish-animated-1_75x63.gif" />
+    <img id="fish8" src="img/fish-animated-3_75x63.gif" />
+    <img id="fish9" src="img/fish-animated-1_75x63.gif" />
+  </div>
+  <img id="circleClick" src="img/circle11.gif" />
+  <canvas id="bubles" width=" " height=" "></canvas>
+
+  <script>
+    let newLeft;
+    let newTop;
+
+    function swim(el) {
+      newLeft = Math.round(Math.random() * ($("body").width() - 75));
+      newTop = Math.round(Math.random() * ($("body").height() - 63));
+
+      el.css("transform", "rotateY(0deg)");
+
+      if (newLeft > el.position().left) {
+        el.css({ transform: "rotateY(180deg)" });
+      }
+      el.animate({ left: newLeft + "px", top: newTop + "px" },
+        Math.round(Math.random() * 1000) + 1000, () => swim(el)
+      );
+
+      $("body").click(function (event) {
+        newLeft = event.pageX;
+        newTop = event.pageY;
+        el.animate({ left: newLeft - 35, top: newTop - 35 });
+
+        let circle = document.getElementById("circleClick");
+        circle.style.display = "block";
+        circle.style.left = newLeft - 105 + "px";
+        circle.style.top = newTop - 105 + "px";
+        setTimeout(() => {
+          circle.style.display = "none";
+        }, 1100);
+
+        clearTimeout(el);
+        return true;
+      });
+    }
+
+    $(document).ready(function () {
+      swim($("#fish1"));
+      swim($("#fish2"));
+      swim($("#fish3"));
+      swim($("#fish4"));
+      swim($("#fish5"));
+      swim($("#fish6"));
+      swim($("#fish7"));
+      swim($("#fish8"));
+      swim($("#fish9"));
+    });
+  </script>
+
+  <script src="js/bubles.js"></script>
+
+</body>
+
+</html>
